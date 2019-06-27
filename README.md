@@ -7,6 +7,12 @@ The program constructs a canvase of '.'  according to the dimensions specified i
 
 ## Build and Run
 
+`python asciilines.py <file.tvg>`
+
+To run test file:
+
+`python asciilines.py test1.tvg`
+
 ## License
 
 This program is licensed under the "MIT License".  Please
