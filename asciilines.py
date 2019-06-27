@@ -1,46 +1,73 @@
 import sys
 
-def make_matrix(row, col):
-    matrix={}
+def fill_canvas(row, col):
+    if row < 1 or col < 1:
+        return None 
+    else:
+        canvas={}
 
-    for index in range(0, row):
-        matrix[index]={}
+        for index in range(0, row):
+            canvas[index]={}
 
-    for i in range(0, row):
-        for j in range(0, col):
-            matrix[i][j]='.'
+        for i in range(0, row):
+            for j in range(0, col):
+                canvas[i][j]='.'
 
-    return matrix
+        return canvas
 
-def print_matrix(matrix, row, col):
+def print_matrix(canvas, row, col):
    for i in range(0, row):
        for j in range(0, col):
-           print(matrix[i][j], end='')
+           print(canvas[i][j], end='')
        print('')
+
+def render_char(line, canvas):
+    lineList= line.split(' ', 5)
+    #print('lineList: ', lineList)
+
+    char=lineList[0]
+    rowStart=int(lineList[1])
+    colStart=int(lineList[2])
+    lineDir=lineList[3]
+    length=int(lineList[4])
+
+    if lineDir == 'h':
+        if rowStart in canvas:
+            for i in range(colStart, length):
+                if i in canvas[rowStart]:
+                    canvas[rowStart][i]= char
+
+    elif lineDir == 'v':
+        for i in range(rowStart, length):
+            if i in canvas and colStart in canvas[i]:
+                canvas[i][colStart]= char
+    else:
+        return False
 
 # ............................................................
 #                             main
 # ............................................................
 
-matrix={}
+canvas={}
 lineCount=0
 
 fin = open(sys.argv[1], 'rt')
-for line in fin:
 
+for line in fin:
     if line[-1] == '\n':
         line=line[:-1:]
 
     if lineCount == 0:
-        print('matrix dimensions: ', line)
+        #print('canvas dimensions: ', line)
         rowCol= line.split(' ', 2)
         row=int(rowCol[0])
         col=int(rowCol[1])
-        matrix= make_matrix(row, col)
-        print_matrix(matrix, row, col)
+        canvas= fill_canvas(row, col)
+        #print_matrix(canvas, row, col)
     else:
-        print('parse line: ', line)
+        render_char(line, canvas)
 
     lineCount= lineCount + 1
 
+print_matrix(canvas, row, col)
 fin.close()
