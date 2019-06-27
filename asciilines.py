@@ -15,7 +15,7 @@ def fill_canvas(row, col):
 
         return canvas
 
-def print_matrix(canvas, row, col):
+def print_canvas(canvas, row, col):
    for i in range(0, row):
        for j in range(0, col):
            print(canvas[i][j], end='')
@@ -33,12 +33,12 @@ def render_char(line, canvas):
 
     if lineDir == 'h':
         if rowStart in canvas:
-            for i in range(colStart, length):
+            for i in range(colStart, length+1):
                 if i in canvas[rowStart]:
                     canvas[rowStart][i]= char
 
     elif lineDir == 'v':
-        for i in range(rowStart, length):
+        for i in range(rowStart, length+1):
             if i in canvas and colStart in canvas[i]:
                 canvas[i][colStart]= char
     else:
@@ -63,11 +63,11 @@ for line in fin:
         row=int(rowCol[0])
         col=int(rowCol[1])
         canvas= fill_canvas(row, col)
-        #print_matrix(canvas, row, col)
+        #print_canvas(canvas, row, col)
     else:
         render_char(line, canvas)
 
     lineCount= lineCount + 1
 
-print_matrix(canvas, row, col)
+print_canvas(canvas, row, col)
 fin.close()
